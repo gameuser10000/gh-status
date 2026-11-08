@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="color-scheme" content="light"><meta name="theme-color" content="#0969da">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Actions 监控">
+<meta name="format-detection" content="telephone=no">
+<title>GitHub Actions 监控 · gameuser10000</title>
+<style>
+:root{--bg:#f6f8fa;--card:#ffffff;--text:#1f2328;--muted:#656d76;--line:#d8dee4;--blue:#0969da}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--text);
+ font:14px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 20px 60px}
+.toolbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;
+ gap:10px;flex-wrap:wrap;padding:10px 20px;background:#fff;border-bottom:1px solid var(--line);
+ box-shadow:0 1px 6px rgba(27,31,36,.06)}
+.tb-left{display:flex;align-items:center;gap:8px;min-width:0;font-size:14px}
+.tb-left b{white-space:nowrap}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block;flex:none}
+.tb-time{color:var(--muted);font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb-right{display:flex;gap:8px;flex:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:34px;padding:0 13px;
+ border:1px solid var(--line);border-radius:8px;background:#f6f8fa;color:var(--text);
+ font:600 13px/1 inherit;text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn:active{opacity:.7}
+header{display:flex;align-items:baseline;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+h1{font-size:24px;margin:0;font-weight:650}
+.sub{color:var(--muted);font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:28px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.stat .n{font-size:28px;font-weight:700;line-height:1.2}
+.stat .l{color:var(--muted);font-size:12px;margin-top:4px}
+section{margin-bottom:28px}
+h2{font-size:16px;margin:0 0 12px;font-weight:650}
+.alerts{background:#fff;border:1px solid #ffd7d7;border-radius:10px;padding:18px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600;background:#fafbfc}
+.allok{background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:18px}
+.allok h2{color:#15803d} .allok p{margin:0;color:#166534}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:14px}
+.card{border:1px solid var(--line);border-radius:10px;padding:15px 16px;background:#fff}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.repo{color:var(--muted);font-size:12px;margin-bottom:2px;overflow-wrap:anywhere}
+.wf{font-size:15px;font-weight:650;color:var(--blue);text-decoration:none;overflow-wrap:anywhere}
+.wf:hover{text-decoration:underline}
+.badge{font-size:12px;font-weight:650;padding:3px 9px;border-radius:20px;white-space:nowrap}
+.meta{display:flex;flex-wrap:wrap;gap:6px 16px;margin:12px 0 8px;color:var(--muted);font-size:12px}
+.meta span{overflow-wrap:anywhere}
+.meta b{color:var(--text);font-weight:600}
+.reasons{margin:6px 0 10px;padding-left:18px;color:#424a53;font-size:12.5px}
+.reasons li{margin:2px 0}
+.bars{display:flex;align-items:center;gap:3px;margin-top:6px;flex-wrap:wrap}
+.bars-label{color:var(--muted);font-size:11px;margin-right:6px}
+.bar{width:13px;height:13px;border-radius:3px;display:inline-block}
+.bar:hover{outline:2px solid #0969da;outline-offset:1px}
+footer{color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:16px;margin-top:32px}
+code{background:#eaeef2;padding:1px 5px;border-radius:4px;font-size:12px}
+@media (max-width:640px){
+ .wrap{padding:16px 12px 40px}
+ .toolbar{padding:9px 12px;gap:8px}
+ .tb-left{font-size:13px;flex:1 1 100%}
+ .tb-right{flex:1 1 100%}
+ .btn{flex:1;min-height:38px;font-size:14px}
+ header{margin-bottom:14px}
+ h1{font-size:19px}
+ .stats{grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
+ .stat{padding:10px 6px;text-align:center}
+ .stat .n{font-size:22px}
+ .stat .l{font-size:11px}
+ section{margin-bottom:18px}
+ .alerts{padding:12px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+ table{min-width:540px}
+ .grid{grid-template-columns:1fr;gap:10px}
+ .card{padding:12px}
+ .card-top{flex-wrap:wrap;gap:6px}
+ .badge{font-size:11px}
+ .meta{display:grid;grid-template-columns:1fr 1fr;gap:4px 10px;font-size:11.5px}
+ .bar{width:16px;height:16px}
+ .reasons{font-size:12px}
+ footer{font-size:11.5px}
+}
+</style></head><body>
+<div class="toolbar">
+  <div class="tb-left"><span class="dot" style="background:#16a34a"></span>
+    <b>全部正常</b><span class="tb-time">2026-11-08 14:51:45 更新 · 北京时间</span></div>
+  <div class="tb-right">
+    <button class="btn" type="button" onclick="location.reload()">刷新页面</button>
+    <a class="btn primary" href="https://github.com/gameuser10000/LWAT/actions/workflows/monitor.yml" target="_blank" rel="noopener">重新扫描</a>
+  </div>
+</div>
+<div class="wrap">
+<header>
+  <div><h1>GitHub Actions 监控面板</h1>
+  <div class="sub">账号 gameuser10000 · 12 个仓库 · 10 个工作流</div></div>
+  <div class="sub">每天 09:00 / 21:00 自动更新</div>
+</header>
+<div class="stats">
+  <div class="stat"><div class="n" style="color:#16a34a">8</div><div class="l">正常</div></div>
+  <div class="stat"><div class="n" style="color:#64748b">2</div><div class="l">提示 / 停用</div></div>
+  <div class="stat"><div class="n" style="color:#d97706">0</div><div class="l">警告</div></div>
+  <div class="stat"><div class="n" style="color:#dc2626">0</div><div class="l">异常</div></div>
+  <div class="stat"><div class="n">10</div><div class="l">工作流总数</div></div>
+</div>
+<section class="allok"><h2>全部正常</h2><p>没有发现失败、卡住、失联或被自动停用的工作流。</p></section>
+<section><h2>全部工作流</h2><div class="grid">
+        <div class="card" style="border-left:4px solid #64748b;background:#f8fafc">
+          <div class="card-top">
+            <div>
+              <div class="repo">gameuser10000/LWAT</div>
+              <a class="wf" href="https://github.com/gameuser10000/LWAT/actions/workflows/.github/workflows/monitor.yml" target="_blank">GitHub Actions 全账号监控</a>
+            </div>
+            <span class="badge" style="background:#e2e8f0;color:#64748b">已忽略</span>
+          </div>
+          <div class="meta">
+            <span>最近运行：<b>40 分钟前</b></span>
+            <span>结论：<b>success</b></span>
+            <span>状态：<b>active</b></span>
+            <span>触发：<b>workflow_dispatch</b></span>
+            <span>cron：<b>0 1 * * * / 0 13 * * *</b></span>
+          </div>
+          <ul class="reasons"><li>命中忽略规则；实际 state=active</li></ul>
+          <div class="bars"><span class="bars-label">近 2 次</span><a href="https://github.com/gameuser10000/LWAT/actions/runs/42453711628" target="_blank" class="bar" style="background:#16a34a" title="#2 11-08 14:11 success"></a><a href="https://github.com/gameuser10000/LWAT/actions/runs/42453594988" target="_blank" class="bar" style="background:#dc2626" title="#1 11-08 14:09 failure"></a></div>
+        </div>
+        <div class="card" style="border-left:4px solid #64748b;background:#f8fafc">
+          <div class="card-top">
+            <div>
+              <div class="repo">gameuser10000/aliyun-signin-action</div>
+              <a class="wf" href="https://github.com/gameuser10000/aliyun-signin-action/actions/workflows/.github/workflows/signin.yml" target="_blank">Aliyun Signin</a>
+            </div>
+            <span class="badge" style="background:#e2e8f0;color:#64748b">已忽略</span>
+          </div>
+          <div class="meta">
+            <span>最近运行：<b>从未运行</b></span>
+            <span>结论：<b>-</b></span>
+            <span>状态：<b>disabled_inactivity</b></span>
+            <span>触发：<b>-</b></span>
+            <span>cron：<b>20 17 * * *</b></span>
+          </div>
+          <ul class="reasons"><li>命中忽略规则；实际 state=disabled_inactivity</li></ul>
+          <div class="bars"><span class="bars-label">近 0 次</span></div>
+        </div>
+        <div class="card" style="border-left:4px solid #16a34a;background:#f0fdf4">
+          <div class="card-top">
+            <div>
+              <div class="repo">gameuser10000/2048</div>
+              <a class="wf" href="https://github.com/gameuser10000/2048/actions/workflows/.github/workflows/checkin.yml" target="_blank">自动签到</a>
+            </div>
+            <span class="badge" style="background:#dcfce7;color:#16a34a">正常</span>
+          </div>
+          <div class="meta">
+            <span>最近运行：<b>10 小时前</b></span>
+            <span>结论：<b>success</b></span>
+            <span>状态：<b>active</b></span>
+            <span>触发：<b>schedule</b></span>
+            <span>cron：<b>3 16 * * * / 3 17 * * *</b></span>
+          </div>
+          <ul class="reasons"><li>按 cron 正常（最近应触发 11-08 01:03 北京，已有对应运行）</li></ul>
+          <div class="bars"><span class="bars-label">近 12 次</span><a href="https://github.com/gameuser10000/2048/actions/runs/42412782292" target="_blank" class="bar" style="background:#16a34a" title="#50 11-08 04:48 success"></a><a href="https://github.com/gameuser10000/2048/actions/runs/42408130703" target="_blank" class="bar" style="background:#16a34a" title="#49 11-08 03:50 success"></a><a href="https://github.com/gameuser10000/2048/actions/runs/42301239835" target="_blank" class="bar" style="background:#16a34a" title="#48 11-07 06:00 success"></a><a href="https://github.com/gameuser10000/2048/actions/runs/42295112547" target="_blank" class="bar" style="background:#16a34a" title="#47 11-07 05:14 success"></a><a href="https://github.com/gameuser10000/2048/actions/runs/42123202623" target="_blank" class="bar" style="background:#16a34a" title="#46 11-06 06:38 success"></a><a href="https://github.com/gameuser10000/2048/actions/runs/42115393108" target="_blank" class="bar" style="background:#16a34a" title="#45 11-06 05:44 success"></a><a href="https://github.com/gameuser10000/2048/actions/runs/41926069071" target="_blank" class="bar" style="background:#16a34a" title="#44 11-05 06:31 success"></a><a href="https://github.com/gameuser10000/2048/actions/runs/41918530203" target="_blank" class="bar" style="background:#16a34a" title="#43 11-05 05:42 success"></a><a href="https://github.com/gameuser10000/2048/actions/runs/41729254544" target="_blank" class="bar" style="background:#16a34a" title="#42 11-04 06:15 success"></a><a href="https://github.com/gameuser10000/2048/actions/runs/41722005869" target="_blank" class="bar" style="background:#16a34a" title="#41 11-04 05:27 success"></a><a href="https://github.com/gameuser10000/2048/actions/runs/41548491037" target="_blank" class="bar" style="background:#16a34a" title="#40 11-03 07:50 success"></a><a href="https://github.com/gameuser10000/2048/actions/runs/41544188152" target="_blank" class="bar" style="background:#16a34a" title="#39 11-03 07:16 success"></a></div>
+        </div>
+        <div class="card" style="border-left:4px solid #16a34a;background:#f0fdf4">
+          <div class="card-top">
+            <div>
+              <div class="repo">gameuser10000/LWAT</div>
+              <a class="wf" href="https://github.com/gameuser10000/LWAT/actions/workflows/.github/workflows/checkin.yml" target="_blank">Discuz Daily Checkin</a>
+            </div>
+            <span class="badge" style="background:#dcfce7;color:#16a34a">正常</span>
+          </div>
+          <div class="meta">
+            <span>最近运行：<b>10 分钟前</b></span>
+            <span>结论：<b>success</b></span>
+            <span>状态：<b>active</b></span>
+            <span>触发：<b>schedule</b></span>
+            <span>cron：<b>3 16 * * * / 40 0 * * *</b></span>
+          </div>
+          <ul class="reasons"><li>按 cron 正常（最近应触发 11-08 08:40 北京，已有对应运行）</li></ul>
+          <div class="bars"><span class="bars-label">近 12 次</span><a href="https://github.com/gameuser10000/LWAT/actions/runs/42455776652" target="_blank" class="bar" style="background:#16a34a" title="#46 11-08 14:41 success"></a><a href="https://github.com/gameuser10000/LWAT/actions/runs/42408237108" target="_blank" class="bar" style="background:#16a34a" title="#45 11-08 03:51 success"></a><a href="https://github.com/gameuser10000/LWAT/actions/runs/42343478323" target="_blank" class="bar" style="background:#16a34a" title="#44 11-07 13:36 success"></a><a href="https://github.com/gameuser10000/LWAT/actions/runs/42295040505" target="_blank" class="bar" style="background:#16a34a" title="#43 11-07 05:14 success"></a><a href="https://github.com/gameuser10000/LWAT/actions/runs/42180340343" target="_blank" class="bar" style="background:#16a34a" title="#42 11-06 15:21 success"></a><a href="https://github.com/gameuser10000/LWAT/actions/runs/42115323232" target="_blank" class="bar" style="background:#dc2626" title="#41 11-06 05:44 failure"></a><a href="https://github.com/gameuser10000/LWAT/actions/runs/41986568204" target="_blank" class="bar" style="background:#16a34a" title="#40 11-05 15:20 success"></a><a href="https://github.com/gameuser10000/LWAT/actions/runs/41918322640" target="_blank" class="bar" style="background:#16a34a" title="#39 11-05 05:40 success"></a><a href="https://github.com/gameuser10000/LWAT/actions/runs/41788899395" target="_blank" class="bar" style="background:#16a34a" title="#38 11-04 14:57 success"></a><a href="https://github.com/gameuser10000/LWAT/actions/runs/41721809021" target="_blank" class="bar" style="background:#16a34a" title="#37 11-04 05:26 success"></a><a href="https://github.com/gameuser10000/LWAT/actions/runs/41594782656" target="_blank" class="bar" style="background:#16a34a" title="#36 11-03 15:12 success"></a><a href="https://github.com/gameuser10000/LWAT/actions/runs/41544139257" target="_blank" class="bar" style="background:#16a34a" title="#35 11-03 07:16 success"></a></div>
+        </div>
+        <div class="card" style="border-left:4px solid #16a34a;background:#f0fdf4">
+          <div class="card-top">
+            <div>
+              <div class="repo">gameuser10000/jd-bean-bot</div>
+              <a class="wf" href="https://github.com/gameuser10000/jd-bean-bot/actions/workflows/.github/workflows/jd-bean.yml" target="_blank">京东京豆自动签到</a>
+            </div>
+            <span class="badge" style="background:#dcfce7;color:#16a34a">正常</span>
+          </div>
+          <div class="meta">
+            <span>最近运行：<b>35 分钟前</b></span>
+            <span>结论：<b>success</b></span>
+            <span>状态：<b>active</b></span>
+            <span>触发：<b>schedule</b></span>
+            <span>cron：<b>20 0 * * *</b></span>
+          </div>
+          <ul class="reasons"><li>按 cron 正常（最近应触发 11-08 08:20 北京，已有对应运行）</li></ul>
+          <div class="bars"><span class="bars-label">近 12 次</span><a href="https://github.com/gameuser10000/jd-bean-bot/actions/runs/42454080931" target="_blank" class="bar" style="background:#16a34a" title="#21 11-08 14:16 success"></a><a href="https://github.com/gameuser10000/jd-bean-bot/actions/runs/42345917479" target="_blank" class="bar" style="background:#16a34a" title="#20 11-07 14:11 success"></a><a href="https://github.com/gameuser10000/jd-bean-bot/actions/runs/42177789109" target="_blank" class="bar" style="background:#16a34a" title="#19 11-06 14:58 success"></a><a href="https://github.com/gameuser10000/jd-bean-bot/actions/runs/41984007740" target="_blank" class="bar" style="background:#16a34a" title="#18 11-05 14:58 success"></a><a href="https://github.com/gameuser10000/jd-bean-bot/actions/runs/41787022649" target="_blank" class="bar" style="background:#16a34a" title="#17 11-04 14:39 success"></a><a href="https://github.com/gameuser10000/jd-bean-bot/actions/runs/41593157703" target="_blank" class="bar" style="background:#16a34a" title="#16 11-03 14:57 success"></a><a href="https://github.com/gameuser10000/jd-bean-bot/actions/runs/41399587186" target="_blank" class="bar" style="background:#16a34a" title="#15 11-02 14:23 success"></a><a href="https://github.com/gameuser10000/jd-bean-bot/actions/runs/41280521686" target="_blank" class="bar" style="background:#16a34a" title="#14 11-01 14:21 success"></a><a href="https://github.com/gameuser10000/jd-bean-bot/actions/runs/41174471532" target="_blank" class="bar" style="background:#16a34a" title="#13 10-31 13:55 success"></a><a href="https://github.com/gameuser10000/jd-bean-bot/actions/runs/41011446910" target="_blank" class="bar" style="background:#16a34a" title="#12 10-30 13:59 success"></a><a href="https://github.com/gameuser10000/jd-bean-bot/actions/runs/40826414345" target="_blank" class="bar" style="background:#16a34a" title="#11 10-29 13:58 success"></a><a href="https://github.com/gameuser10000/jd-bean-bot/actions/runs/40640653420" target="_blank" class="bar" style="background:#16a34a" title="#10 10-28 13:54 success"></a></div>
+        </div>
+        <div class="card" style="border-left:4px solid #16a34a;background:#f0fdf4">
+          <div class="card-top">
+            <div>
+              <div class="repo">gameuser10000/kuro-sign-bot</div>
+              <a class="wf" href="https://github.com/gameuser10000/kuro-sign-bot/actions/workflows/.github/workflows/sign.yml" target="_blank">kuro-month-sign</a>
+            </div>
+            <span class="badge" style="background:#dcfce7;color:#16a34a">正常</span>
+          </div>
+          <div class="meta">
+            <span>最近运行：<b>10 小时前</b></span>
+            <span>结论：<b>success</b></span>
+            <span>状态：<b>active</b></span>
+            <span>触发：<b>schedule</b></span>
+            <span>cron：<b>3 16 * * * / 20 16 * * *</b></span>
+          </div>
+          <ul class="reasons"><li>按 cron 正常（最近应触发 11-08 00:20 北京，已有对应运行）</li></ul>
+          <div class="bars"><span class="bars-label">近 12 次</span><a href="https://github.com/gameuser10000/kuro-sign-bot/actions/runs/42410083734" target="_blank" class="bar" style="background:#16a34a" title="#39 11-08 04:14 success"></a><a href="https://github.com/gameuser10000/kuro-sign-bot/actions/runs/42409561099" target="_blank" class="bar" style="background:#16a34a" title="#38 11-08 04:08 success"></a><a href="https://github.com/gameuser10000/kuro-sign-bot/actions/runs/42297179767" target="_blank" class="bar" style="background:#16a34a" title="#37 11-07 05:29 success"></a><a href="https://github.com/gameuser10000/kuro-sign-bot/actions/runs/42296694193" target="_blank" class="bar" style="background:#16a34a" title="#36 11-07 05:26 success"></a><a href="https://github.com/gameuser10000/kuro-sign-bot/actions/runs/42117492818" target="_blank" class="bar" style="background:#16a34a" title="#35 11-06 05:59 success"></a><a href="https://github.com/gameuser10000/kuro-sign-bot/actions/runs/42116902387" target="_blank" class="bar" style="background:#16a34a" title="#34 11-06 05:54 success"></a><a href="https://github.com/gameuser10000/kuro-sign-bot/actions/runs/41920241517" target="_blank" class="bar" style="background:#16a34a" title="#33 11-05 05:53 success"></a><a href="https://github.com/gameuser10000/kuro-sign-bot/actions/runs/41919476012" target="_blank" class="bar" style="background:#16a34a" title="#32 11-05 05:48 success"></a><a href="https://github.com/gameuser10000/kuro-sign-bot/actions/runs/41724889624" target="_blank" class="bar" style="background:#16a34a" title="#31 11-04 05:47 success"></a><a href="https://github.com/gameuser10000/kuro-sign-bot/actions/runs/41723913037" target="_blank" class="bar" style="background:#16a34a" title="#30 11-04 05:40 success"></a><a href="https://github.com/gameuser10000/kuro-sign-bot/actions/runs/41546049249" target="_blank" class="bar" style="background:#16a34a" title="#29 11-03 07:31 success"></a><a href="https://github.com/gameuser10000/kuro-sign-bot/actions/runs/41545247666" target="_blank" class="bar" style="background:#16a34a" title="#28 11-03 07:24 success"></a></div>
+        </div>
+        <div class="card" style="border-left:4px solid #16a34a;background:#f0fdf4">
+          <div class="card-top">
+            <div>
+              <div class="repo">gameuser10000/microsoft-rewards-auto</div>
+              <a class="wf" href="https://github.com/gameuser10000/microsoft-rewards-auto/actions/workflows/.github/workflows/keepalive.yml" target="_blank">Keep Alive</a>
+            </div>
+            <span class="badge" style="background:#dcfce7;color:#16a34a">正常</span>
+          </div>
+          <div class="meta">
+            <span>最近运行：<b>6 天前</b></span>
+            <span>结论：<b>success</b></span>
+            <span>状态：<b>active</b></span>
+            <span>触发：<b>schedule</b></span>
+            <span>cron：<b>0 3 1 * *</b></span>
+          </div>
+          <ul class="reasons"><li>按 cron 正常（最近应触发 11-01 11:00 北京，已有对应运行）</li></ul>
+          <div class="bars"><span class="bars-label">近 1 次</span><a href="https://github.com/gameuser10000/microsoft-rewards-auto/actions/runs/41295652942" target="_blank" class="bar" style="background:#16a34a" title="#1 11-01 18:01 success"></a></div>
+        </div>
+        <div class="card" style="border-left:4px solid #16a34a;background:#f0fdf4">
+          <div class="card-top">
+            <div>
+              <div class="repo">gameuser10000/microsoft-rewards-auto</div>
+              <a class="wf" href="https://github.com/gameuser10000/microsoft-rewards-auto/actions/workflows/.github/workflows/rewards.yml" target="_blank">Microsoft Rewards Auto</a>
+            </div>
+            <span class="badge" style="background:#dcfce7;color:#16a34a">正常</span>
+          </div>
+          <div class="meta">
+            <span>最近运行：<b>43 分钟前</b></span>
+            <span>结论：<b>success</b></span>
+            <span>状态：<b>active</b></span>
+            <span>触发：<b>schedule</b></span>
+            <span>cron：<b>17 0 * * * / 37 4 * * * / 23 11 * * *</b></span>
+          </div>
+          <ul class="reasons"><li>按 cron 正常（最近应触发 11-08 12:37 北京，已有对应运行）</li></ul>
+          <div class="bars"><span class="bars-label">近 12 次</span><a href="https://github.com/gameuser10000/microsoft-rewards-auto/actions/runs/42453517353" target="_blank" class="bar" style="background:#16a34a" title="#62 11-08 14:08 success"></a><a href="https://github.com/gameuser10000/microsoft-rewards-auto/actions/runs/42393471078" target="_blank" class="bar" style="background:#16a34a" title="#61 11-08 00:52 success"></a><a href="https://github.com/gameuser10000/microsoft-rewards-auto/actions/runs/42367610704" target="_blank" class="bar" style="background:#16a34a" title="#60 11-07 19:18 success"></a><a href="https://github.com/gameuser10000/microsoft-rewards-auto/actions/runs/42345335503" target="_blank" class="bar" style="background:#16a34a" title="#59 11-07 14:03 success"></a><a href="https://github.com/gameuser10000/microsoft-rewards-auto/actions/runs/42267217073" target="_blank" class="bar" style="background:#16a34a" title="#58 11-07 02:03 success"></a><a href="https://github.com/gameuser10000/microsoft-rewards-auto/actions/runs/42217603486" target="_blank" class="bar" style="background:#16a34a" title="#57 11-06 20:25 success"></a><a href="https://github.com/gameuser10000/microsoft-rewards-auto/actions/runs/42177290950" target="_blank" class="bar" style="background:#16a34a" title="#56 11-06 14:53 success"></a><a href="https://github.com/gameuser10000/microsoft-rewards-auto/actions/runs/42087784746" target="_blank" class="bar" style="background:#16a34a" title="#55 11-06 02:48 success"></a><a href="https://github.com/gameuser10000/microsoft-rewards-auto/actions/runs/42029472793" target="_blank" class="bar" style="background:#16a34a" title="#54 11-05 20:42 success"></a><a href="https://github.com/gameuser10000/microsoft-rewards-auto/actions/runs/41983453075" target="_blank" class="bar" style="background:#16a34a" title="#53 11-05 14:53 success"></a><a href="https://github.com/gameuser10000/microsoft-rewards-auto/actions/runs/41889427076" target="_blank" class="bar" style="background:#16a34a" title="#52 11-05 02:40 success"></a><a href="https://github.com/gameuser10000/microsoft-rewards-auto/actions/runs/41829700282" target="_blank" class="bar" style="background:#16a34a" title="#51 11-04 20:29 success"></a></div>
+        </div>
+        <div class="card" style="border-left:4px solid #16a34a;background:#f0fdf4">
+          <div class="card-top">
+            <div>
+              <div class="repo">gameuser10000/mihoyo-checkin</div>
+              <a class="wf" href="https://github.com/gameuser10000/mihoyo-checkin/actions/workflows/.github/workflows/checkin.yml" target="_blank">miyoushe-checkin</a>
+            </div>
+            <span class="badge" style="background:#dcfce7;color:#16a34a">正常</span>
+          </div>
+          <div class="meta">
+            <span>最近运行：<b>10 小时前</b></span>
+            <span>结论：<b>success</b></span>
+            <span>状态：<b>active</b></span>
+            <span>触发：<b>schedule</b></span>
+            <span>cron：<b>3 16 * * * / 0 4 * * *</b></span>
+          </div>
+          <ul class="reasons"><li>按 cron 正常（最近应触发 11-08 12:00 北京，已有对应运行）</li></ul>
+          <div class="bars"><span class="bars-label">近 12 次</span><a href="https://github.com/gameuser10000/mihoyo-checkin/actions/runs/42409529120" target="_blank" class="bar" style="background:#16a34a" title="#41 11-08 04:07 success"></a><a href="https://github.com/gameuser10000/mihoyo-checkin/actions/runs/42365147089" target="_blank" class="bar" style="background:#16a34a" title="#40 11-07 18:43 success"></a><a href="https://github.com/gameuser10000/mihoyo-checkin/actions/runs/42296661741" target="_blank" class="bar" style="background:#16a34a" title="#39 11-07 05:25 success"></a><a href="https://github.com/gameuser10000/mihoyo-checkin/actions/runs/42211648594" target="_blank" class="bar" style="background:#16a34a" title="#38 11-06 19:37 success"></a><a href="https://github.com/gameuser10000/mihoyo-checkin/actions/runs/42116827437" target="_blank" class="bar" style="background:#16a34a" title="#37 11-06 05:54 success"></a><a href="https://github.com/gameuser10000/mihoyo-checkin/actions/runs/42020761914" target="_blank" class="bar" style="background:#16a34a" title="#36 11-05 19:39 success"></a><a href="https://github.com/gameuser10000/mihoyo-checkin/actions/runs/41919499368" target="_blank" class="bar" style="background:#16a34a" title="#35 11-05 05:48 success"></a><a href="https://github.com/gameuser10000/mihoyo-checkin/actions/runs/41822563958" target="_blank" class="bar" style="background:#16a34a" title="#34 11-04 19:38 success"></a><a href="https://github.com/gameuser10000/mihoyo-checkin/actions/runs/41723825754" target="_blank" class="bar" style="background:#16a34a" title="#33 11-04 05:39 success"></a><a href="https://github.com/gameuser10000/mihoyo-checkin/actions/runs/41627462672" target="_blank" class="bar" style="background:#16a34a" title="#32 11-03 19:25 success"></a><a href="https://github.com/gameuser10000/mihoyo-checkin/actions/runs/41545188171" target="_blank" class="bar" style="background:#16a34a" title="#31 11-03 07:24 success"></a><a href="https://github.com/gameuser10000/mihoyo-checkin/actions/runs/41439087580" target="_blank" class="bar" style="background:#16a34a" title="#30 11-02 19:43 success"></a></div>
+        </div>
+        <div class="card" style="border-left:4px solid #16a34a;background:#f0fdf4">
+          <div class="card-top">
+            <div>
+              <div class="repo">gameuser10000/xiaomi-community-auto</div>
+              <a class="wf" href="https://github.com/gameuser10000/xiaomi-community-auto/actions/workflows/.github/workflows/checkin.yml" target="_blank">小米社区每日任务</a>
+            </div>
+            <span class="badge" style="background:#dcfce7;color:#16a34a">正常</span>
+          </div>
+          <div class="meta">
+            <span>最近运行：<b>52 分钟前</b></span>
+            <span>结论：<b>success</b></span>
+            <span>状态：<b>active</b></span>
+            <span>触发：<b>schedule</b></span>
+            <span>cron：<b>17 0,2,4,6 * * *</b></span>
+          </div>
+          <ul class="reasons"><li>按 cron 正常（最近应触发 11-08 14:17 北京，已有对应运行）</li></ul>
+          <div class="bars"><span class="bars-label">近 12 次</span><a href="https://github.com/gameuser10000/xiaomi-community-auto/actions/runs/42452849565" target="_blank" class="bar" style="background:#16a34a" title="#27 11-08 13:58 success"></a><a href="https://github.com/gameuser10000/xiaomi-community-auto/actions/runs/42374857567" target="_blank" class="bar" style="background:#16a34a" title="#26 11-07 20:59 success"></a><a href="https://github.com/gameuser10000/xiaomi-community-auto/actions/runs/42344840619" target="_blank" class="bar" style="background:#16a34a" title="#25 11-07 13:56 success"></a><a href="https://github.com/gameuser10000/xiaomi-community-auto/actions/runs/42176175637" target="_blank" class="bar" style="background:#16a34a" title="#24 11-06 14:42 success"></a><a href="https://github.com/gameuser10000/xiaomi-community-auto/actions/runs/41982474373" target="_blank" class="bar" style="background:#16a34a" title="#23 11-05 14:44 success"></a><a href="https://github.com/gameuser10000/xiaomi-community-auto/actions/runs/41784812009" target="_blank" class="bar" style="background:#16a34a" title="#22 11-04 14:20 success"></a><a href="https://github.com/gameuser10000/xiaomi-community-auto/actions/runs/41591933459" target="_blank" class="bar" style="background:#16a34a" title="#21 11-03 14:45 success"></a><a href="https://github.com/gameuser10000/xiaomi-community-auto/actions/runs/41475458129" target="_blank" class="bar" style="background:#16a34a" title="#20 11-02 23:49 success"></a><a href="https://github.com/gameuser10000/xiaomi-community-auto/actions/runs/41397204779" target="_blank" class="bar" style="background:#16a34a" title="#19 11-02 13:59 success"></a><a href="https://github.com/gameuser10000/xiaomi-community-auto/actions/runs/41311014057" target="_blank" class="bar" style="background:#16a34a" title="#18 11-01 21:23 success"></a><a href="https://github.com/gameuser10000/xiaomi-community-auto/actions/runs/41279186928" target="_blank" class="bar" style="background:#16a34a" title="#17 11-01 14:02 success"></a><a href="https://github.com/gameuser10000/xiaomi-community-auto/actions/runs/41201137749" target="_blank" class="bar" style="background:#16a34a" title="#16 10-31 20:26 success"></a></div>
+        </div></div></section>
+<footer>
+判定规则：读取每个 workflow 源文件里的 <code>cron</code>（GitHub 按 UTC 解释），算出最近一次应触发时刻；
+若该时刻之后没有运行记录且已超过 <b>8 小时</b>宽限期（GitHub 排队实测最久 5.5 小时）→ 警告；
+读不到 cron 时用 30 小时固定阈值兜底。最近一次 <code>failure</code> → 异常；
+运行中超过 60 分钟 → 警告；
+<code>disabled_inactivity</code>（仓库 60 天无活动被 GitHub 自动禁用，官方不发通知）→ 异常；
+<code>active</code> 但零运行记录 → 警告。色块为近 12 次运行，绿色成功 / 红色失败 / 灰色取消，点击可跳转对应 run。<br><br>
+手机用法：把本页存为书签，或用浏览器的「添加到主屏幕」，以后一点就开。
+想立刻看最新状态，点右上角 <b>重新扫描</b> → 在打开的页面点 <code>Run workflow</code>，
+约 1 分钟后回来点 <b>刷新页面</b>。本机也可运行 <code>python gh_monitor.py</code> 生成同款报告。
+</footer>
+</div></body></html>
