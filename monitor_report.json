@@ -1,0 +1,155 @@
+{
+  "login": "gameuser10000",
+  "generated": "2026-11-08T14:55:33.707233+08:00",
+  "counts": {
+    "0": 9,
+    "1": 2,
+    "2": 0,
+    "3": 0
+  },
+  "workflows": [
+    {
+      "repo": "gameuser10000/LWAT",
+      "name": "GitHub Actions 全账号监控",
+      "state": "active",
+      "level": 1,
+      "title": "已忽略",
+      "reasons": [
+        "命中忽略规则；实际 state=active"
+      ],
+      "last_time": "2026-11-08T14:55:14+08:00",
+      "last_conclusion": null,
+      "url": "https://github.com/gameuser10000/LWAT/actions/workflows/.github/workflows/monitor.yml"
+    },
+    {
+      "repo": "gameuser10000/aliyun-signin-action",
+      "name": "Aliyun Signin",
+      "state": "disabled_inactivity",
+      "level": 1,
+      "title": "已忽略",
+      "reasons": [
+        "命中忽略规则；实际 state=disabled_inactivity"
+      ],
+      "last_time": null,
+      "last_conclusion": null,
+      "url": "https://github.com/gameuser10000/aliyun-signin-action/actions/workflows/.github/workflows/signin.yml"
+    },
+    {
+      "repo": "gameuser10000/2048",
+      "name": "自动签到",
+      "state": "active",
+      "level": 0,
+      "title": "正常",
+      "reasons": [
+        "按 cron 正常（最近应触发 11-08 01:03 北京，已有对应运行）"
+      ],
+      "last_time": "2026-11-08T04:48:05+08:00",
+      "last_conclusion": "success",
+      "url": "https://github.com/gameuser10000/2048/actions/workflows/.github/workflows/checkin.yml"
+    },
+    {
+      "repo": "gameuser10000/LWAT",
+      "name": "Discuz Daily Checkin",
+      "state": "active",
+      "level": 0,
+      "title": "正常",
+      "reasons": [
+        "按 cron 正常（最近应触发 11-08 08:40 北京，已有对应运行）"
+      ],
+      "last_time": "2026-11-08T14:41:26+08:00",
+      "last_conclusion": "success",
+      "url": "https://github.com/gameuser10000/LWAT/actions/workflows/.github/workflows/checkin.yml"
+    },
+    {
+      "repo": "gameuser10000/gh-status",
+      "name": "pages-build-deployment",
+      "state": "active",
+      "level": 0,
+      "title": "正常",
+      "reasons": [
+        "运行正常"
+      ],
+      "last_time": "2026-11-08T14:53:57+08:00",
+      "last_conclusion": "success",
+      "url": "https://github.com/gameuser10000/gh-status/actions/workflows/dynamic/pages/pages-build-deployment"
+    },
+    {
+      "repo": "gameuser10000/jd-bean-bot",
+      "name": "京东京豆自动签到",
+      "state": "active",
+      "level": 0,
+      "title": "正常",
+      "reasons": [
+        "按 cron 正常（最近应触发 11-08 08:20 北京，已有对应运行）"
+      ],
+      "last_time": "2026-11-08T14:16:42+08:00",
+      "last_conclusion": "success",
+      "url": "https://github.com/gameuser10000/jd-bean-bot/actions/workflows/.github/workflows/jd-bean.yml"
+    },
+    {
+      "repo": "gameuser10000/kuro-sign-bot",
+      "name": "kuro-month-sign",
+      "state": "active",
+      "level": 0,
+      "title": "正常",
+      "reasons": [
+        "按 cron 正常（最近应触发 11-08 00:20 北京，已有对应运行）"
+      ],
+      "last_time": "2026-11-08T04:14:22+08:00",
+      "last_conclusion": "success",
+      "url": "https://github.com/gameuser10000/kuro-sign-bot/actions/workflows/.github/workflows/sign.yml"
+    },
+    {
+      "repo": "gameuser10000/microsoft-rewards-auto",
+      "name": "Keep Alive",
+      "state": "active",
+      "level": 0,
+      "title": "正常",
+      "reasons": [
+        "按 cron 正常（最近应触发 11-01 11:00 北京，已有对应运行）"
+      ],
+      "last_time": "2026-11-01T18:01:57+08:00",
+      "last_conclusion": "success",
+      "url": "https://github.com/gameuser10000/microsoft-rewards-auto/actions/workflows/.github/workflows/keepalive.yml"
+    },
+    {
+      "repo": "gameuser10000/microsoft-rewards-auto",
+      "name": "Microsoft Rewards Auto",
+      "state": "active",
+      "level": 0,
+      "title": "正常",
+      "reasons": [
+        "按 cron 正常（最近应触发 11-08 12:37 北京，已有对应运行）"
+      ],
+      "last_time": "2026-11-08T14:08:31+08:00",
+      "last_conclusion": "success",
+      "url": "https://github.com/gameuser10000/microsoft-rewards-auto/actions/workflows/.github/workflows/rewards.yml"
+    },
+    {
+      "repo": "gameuser10000/mihoyo-checkin",
+      "name": "miyoushe-checkin",
+      "state": "active",
+      "level": 0,
+      "title": "正常",
+      "reasons": [
+        "按 cron 正常（最近应触发 11-08 12:00 北京，已有对应运行）"
+      ],
+      "last_time": "2026-11-08T04:07:42+08:00",
+      "last_conclusion": "success",
+      "url": "https://github.com/gameuser10000/mihoyo-checkin/actions/workflows/.github/workflows/checkin.yml"
+    },
+    {
+      "repo": "gameuser10000/xiaomi-community-auto",
+      "name": "小米社区每日任务",
+      "state": "active",
+      "level": 0,
+      "title": "正常",
+      "reasons": [
+        "按 cron 正常（最近应触发 11-08 14:17 北京，已有对应运行）"
+      ],
+      "last_time": "2026-11-08T13:58:55+08:00",
+      "last_conclusion": "success",
+      "url": "https://github.com/gameuser10000/xiaomi-community-auto/actions/workflows/.github/workflows/checkin.yml"
+    }
+  ]
+}
