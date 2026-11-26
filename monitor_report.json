@@ -1,6 +1,6 @@
 {
   "login": "gameuser10000",
-  "generated": "2026-11-26T06:01:45.601749+08:00",
+  "generated": "2026-11-26T17:18:27.350294+08:00",
   "counts": {
     "0": 8,
     "1": 2,
@@ -17,9 +17,9 @@
       "reasons": [
         "近 15 次运行失败 3 次",
         "但最近一次已成功，属可恢复波动",
-        "按 cron 正常（最近应触发 11-26 00:03 北京，已有对应运行）"
+        "按 cron 正常（最近应触发 11-26 08:40 北京，已有对应运行）"
       ],
-      "last_time": "2026-11-25T17:06:44+08:00",
+      "last_time": "2026-11-26T16:52:28+08:00",
       "last_conclusion": "success",
       "url": "https://github.com/gameuser10000/LWAT/actions/workflows/.github/workflows/checkin.yml"
     },
@@ -32,7 +32,7 @@
       "reasons": [
         "命中忽略规则；实际 state=active"
       ],
-      "last_time": "2026-11-26T06:01:26+08:00",
+      "last_time": "2026-11-26T17:18:06+08:00",
       "last_conclusion": null,
       "url": "https://github.com/gameuser10000/LWAT/actions/workflows/.github/workflows/monitor.yml"
     },
@@ -56,9 +56,9 @@
       "level": 0,
       "title": "正常",
       "reasons": [
-        "最近应触发 11-26 01:03 北京，仍在 GitHub 调度宽限期内"
+        "按 cron 正常（最近应触发 11-26 01:03 北京，已有对应运行）"
       ],
-      "last_time": "2026-11-25T09:20:58+08:00",
+      "last_time": "2026-11-26T08:55:58+08:00",
       "last_conclusion": "success",
       "url": "https://github.com/gameuser10000/2048/actions/workflows/.github/workflows/checkin.yml"
     },
@@ -71,7 +71,7 @@
       "reasons": [
         "运行正常"
       ],
-      "last_time": "2026-11-25T17:42:24+08:00",
+      "last_time": "2026-11-26T06:01:49+08:00",
       "last_conclusion": "success",
       "url": "https://github.com/gameuser10000/gh-status/actions/workflows/dynamic/pages/pages-build-deployment"
     },
@@ -82,9 +82,9 @@
       "level": 0,
       "title": "正常",
       "reasons": [
-        "按 cron 正常（最近应触发 11-25 08:20 北京，已有对应运行）"
+        "按 cron 正常（最近应触发 11-26 08:20 北京，已有对应运行）"
       ],
-      "last_time": "2026-11-25T16:49:19+08:00",
+      "last_time": "2026-11-26T16:34:33+08:00",
       "last_conclusion": "success",
       "url": "https://github.com/gameuser10000/jd-bean-bot/actions/workflows/.github/workflows/jd-bean.yml"
     },
@@ -95,9 +95,9 @@
       "level": 0,
       "title": "正常",
       "reasons": [
-        "最近应触发 11-26 00:20 北京，仍在 GitHub 调度宽限期内"
+        "按 cron 正常（最近应触发 11-26 00:20 北京，已有对应运行）"
       ],
-      "last_time": "2026-11-25T08:44:07+08:00",
+      "last_time": "2026-11-26T08:20:52+08:00",
       "last_conclusion": "success",
       "url": "https://github.com/gameuser10000/kuro-sign-bot/actions/workflows/.github/workflows/sign.yml"
     },
@@ -121,9 +121,9 @@
       "level": 0,
       "title": "正常",
       "reasons": [
-        "按 cron 正常（最近应触发 11-25 19:23 北京，已有对应运行）"
+        "按 cron 正常（最近应触发 11-26 12:37 北京，已有对应运行）"
       ],
-      "last_time": "2026-11-26T04:29:36+08:00",
+      "last_time": "2026-11-26T16:26:29+08:00",
       "last_conclusion": "success",
       "url": "https://github.com/gameuser10000/microsoft-rewards-auto/actions/workflows/.github/workflows/rewards.yml"
     },
@@ -134,9 +134,9 @@
       "level": 0,
       "title": "正常",
       "reasons": [
-        "按 cron 正常（最近应触发 11-26 00:03 北京，已有对应运行）"
+        "按 cron 正常（最近应触发 11-26 12:00 北京，已有对应运行）"
       ],
-      "last_time": "2026-11-25T21:39:28+08:00",
+      "last_time": "2026-11-26T08:08:37+08:00",
       "last_conclusion": "success",
       "url": "https://github.com/gameuser10000/mihoyo-checkin/actions/workflows/.github/workflows/checkin.yml"
     },
@@ -147,9 +147,9 @@
       "level": 0,
       "title": "正常",
       "reasons": [
-        "按 cron 正常（最近应触发 11-25 14:17 北京，已有对应运行）"
+        "按 cron 正常（最近应触发 11-26 14:17 北京，已有对应运行）"
       ],
-      "last_time": "2026-11-25T16:30:50+08:00",
+      "last_time": "2026-11-26T16:14:56+08:00",
       "last_conclusion": "success",
       "url": "https://github.com/gameuser10000/xiaomi-community-auto/actions/workflows/.github/workflows/checkin.yml"
     }
